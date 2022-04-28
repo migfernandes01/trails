@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// interface to describe a Trail (that we get vack when we fetch trails)
+// interface to describe a Trail (that we get back when we fetch trails)
 export interface Trail {
     _id?: number;
     title: string;
@@ -23,3 +23,9 @@ export const createTrail = (newTrail: Trail) => axios.post(url, newTrail);
 
 // function to make a PATCH to (/trails/:id) request with an updated Trail
 export const updateTrail = (id: any, trail: Trail) => axios.patch(`${url}/${id}`, trail);
+
+// function to make a DELETE to (/trails/:id)
+export const deleteTrail = (id: number) => axios.delete(`${url}/${id}`);
+
+// function to make a PATCH to (/trails/:id/likeTrail)
+export const likeTrail = (id: number) => axios.patch(`${url}/${id}/likeTrail`);

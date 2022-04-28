@@ -8,7 +8,6 @@ export const getTrails = async (req: Request, res: Response): Promise<any> => {
     try {
         // find all trails in Trail model
         const trails = await Trail.find();
-        //
         // console.log(trails);
         // send trails in json type with a status of 200
         res.status(200).json(trails);
@@ -37,19 +36,56 @@ export const createTrail = async (req: Request, res: Response): Promise<any> => 
 
 // update trail controller
 export const updateTrail = async (req: Request, res: Response): Promise<any> => {
-    // extract id and trail from request
+    // extract id from request
     const { id: _id } = req.params;
-    const { trail } = req.body;
 
-    console.log('UPDATING, ID, TRAIL', _id, req.body);
+    // console.log('UPDATING, ID, TRAIL', _id, req.body);
 
     // if id is not valid
     if(!mongoose.Types.ObjectId.isValid(_id)) {
         return res.status(404).send('No exisitng trail with that id');
     }
+
     // update with the id
-    const updatedTrail = await Trail.findByIdAndUpdate(_id, req.body, { new: true });
+    const updatedTrail = await Trail.findByIdAndUpdate(_id, {...req.body, _id}, { new: true });
     
     // send the new updated trail
     res.json(updatedTrail);
+}
+
+// delete trail controller
+export const deleteTrail = async (req: Request, res: Response): Promise<any> => {
+    // extract id from request
+    const { id: _id } = req.params;
+
+    // if id is not valid
+    if(!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(404).send('No exisitng trail with that id');
+    }
+
+    // delete trail by id
+    await Trail.findByIdAndRemove(_id);
+
+    // send success message
+    res.json({ message: 'Trail deleted successfully' });
+};
+
+export const likeTrail = async (req: Request, res: Response): Promise<any> => {
+    // extract id from request
+    const { id: _id } = req.params;
+
+    // if id is not valid
+    if(!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(404).send('No exisitng trail with that id');
+    }
+
+    // find trail to update
+    const trail = await Trail.findById(_id);
+
+    // type guard
+    if(trail) {
+        // update like count
+        const updatedTrail = await Trail.findByIdAndUpdate(_id, { likeCount: trail.likeCount + 1 }, { new: true })
+        res.json({updatedTrail});
+    }
 }

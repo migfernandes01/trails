@@ -10,7 +10,7 @@ import trails from './images/mountain.png';
 import { Form } from './components/Form/Form';
 import { Trails } from './components/Trails/Trails';
 import useStyles from './styles';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getTrails } from './redux/actions/trails';
 
 const App = (): JSX.Element => {
@@ -36,7 +36,7 @@ const App = (): JSX.Element => {
             </AppBar>
             <Grow in>
                 <Container>
-                    <Grid container justifyContent='space-between' alignItems='stretch' spacing={3}>
+                    <Grid className={classes.mainContainer} container justifyContent='space-between' alignItems='stretch' spacing={3}>
                         <Grid item xs={12} sm={7}> 
                             <Trails setCurrentId={setCurrentId}/>
                         </Grid>

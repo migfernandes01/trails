@@ -7,14 +7,8 @@ interface Trail {
     author: string;
     tags: string[];
     selectedFile: string;
-    likeCount: {
-        type: number,
-        default: number,
-    };
-    createdAt: {
-        type: Date,
-        default: Date,
-    }
+    likeCount: number;
+    createdAt: Date;
 }
 
 // create new Schema using the interface trail

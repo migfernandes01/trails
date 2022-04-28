@@ -14,7 +14,6 @@ export const getTrails = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         // find all trails in Trail model
         const trails = yield Trail.find();
-        //
         // console.log(trails);
         // send trails in json type with a status of 200
         res.status(200).json(trails);
@@ -43,16 +42,44 @@ export const createTrail = (req, res) => __awaiter(void 0, void 0, void 0, funct
 });
 // update trail controller
 export const updateTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // extract id and trail from request
+    // extract id from request
     const { id: _id } = req.params;
-    const { trail } = req.body;
-    console.log('UPDATING, ID, TRAIL', _id, req.body);
+    // console.log('UPDATING, ID, TRAIL', _id, req.body);
     // if id is not valid
     if (!mongoose.Types.ObjectId.isValid(_id)) {
         return res.status(404).send('No exisitng trail with that id');
     }
     // update with the id
-    const updatedTrail = yield Trail.findByIdAndUpdate(_id, req.body, { new: true });
+    const updatedTrail = yield Trail.findByIdAndUpdate(_id, Object.assign(Object.assign({}, req.body), { _id }), { new: true });
     // send the new updated trail
     res.json(updatedTrail);
+});
+// delete trail controller
+export const deleteTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // extract id from request
+    const { id: _id } = req.params;
+    // if id is not valid
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(404).send('No exisitng trail with that id');
+    }
+    // delete trail by id
+    yield Trail.findByIdAndRemove(_id);
+    // send success message
+    res.json({ message: 'Trail deleted successfully' });
+});
+export const likeTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // extract id from request
+    const { id: _id } = req.params;
+    // if id is not valid
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(404).send('No exisitng trail with that id');
+    }
+    // find trail to update
+    const trail = yield Trail.findById(_id);
+    // type guard
+    if (trail) {
+        // update like count
+        const updatedTrail = yield Trail.findByIdAndUpdate(_id, { likeCount: trail.likeCount + 1 }, { new: true });
+        res.json({ updatedTrail });
+    }
 });
