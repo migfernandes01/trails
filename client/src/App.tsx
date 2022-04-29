@@ -1,52 +1,21 @@
-import React, { useEffect, useState } from "react";
-import {
-    Container,
-    AppBar,
-    Typography,
-    Grow,
-    Grid
-} from '@material-ui/core';
-import trails from './images/mountain.png';
-import { Form } from './components/Form/Form';
-import { Trails } from './components/Trails/Trails';
-import useStyles from './styles';
-import { useDispatch } from "react-redux";
-import { getTrails } from './redux/actions/trails';
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Container } from '@material-ui/core';
+import { Navbar } from "./components/Navbar/Navbar";
+import { Home } from './components/Home/Home';
+import { Auth } from './components/Auth/Auth';
 
 const App = (): JSX.Element => {
-    // state for current ID selected
-    const [currentId, setCurrentId] = useState(null);
-
-    // useStyles into classes object
-    const classes = useStyles();
-
-    // instantiate useDispatch
-    const dispatch = useDispatch();
-
-    // dispatch new action to fetch trails when component is rendered
-    useEffect(() => {
-        dispatch(getTrails());
-    }, [currentId, dispatch]);
-
     return (
-        <Container maxWidth='lg'>
-            <AppBar className={classes.appBar} position="static" color="inherit">
-                <Typography className={classes.heading} variant="h2" align="center">Trails</Typography>
-                <img className={classes.image} src={trails} alt='trails' height='60' />
-            </AppBar>
-            <Grow in>
-                <Container>
-                    <Grid className={classes.mainContainer} container justifyContent='space-between' alignItems='stretch' spacing={3}>
-                        <Grid item xs={12} sm={7}> 
-                            <Trails setCurrentId={setCurrentId}/>
-                        </Grid>
-                        <Grid item xs={12} sm={4}> 
-                            <Form currentId={currentId} setCurrentId={setCurrentId}/>
-                        </Grid>
-                    </Grid>
-                </Container>
-            </Grow>
-        </Container>
+        <BrowserRouter>
+            <Container maxWidth='lg'>
+                <Navbar />
+                <Switch>
+                    <Route exact path='/' component={Home} />
+                    <Route exact path='/auth' component={Auth} />
+                </Switch>
+            </Container>
+        </BrowserRouter>
     );
 };
 

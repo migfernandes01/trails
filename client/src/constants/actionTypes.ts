@@ -4,4 +4,6 @@ export enum Actions {
     update = 'UPDATE',
     delete = 'DELETE',
     like = 'LIKE',
+    auth = 'AUTH',
+    logout = 'LOGOUT',
 }
