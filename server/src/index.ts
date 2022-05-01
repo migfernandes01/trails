@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { trailsRouter } from './routes/trails.js';
+import { usersRouter } from './routes/users.js';
 import 'dotenv/config';
 
 // new instance of express
@@ -16,6 +17,8 @@ app.use(cors());
 
 // use trailsRouter for /trails routing
 app.use('/trails', trailsRouter);
+// use usersRouter for /users routing
+app.use('/user', usersRouter);
 
 // Mongodb connection url and PORT
 const CONNECTION_URL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PW}@cluster0.a0pw6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;

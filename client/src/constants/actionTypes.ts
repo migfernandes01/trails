@@ -6,4 +6,6 @@ export enum Actions {
     like = 'LIKE',
     auth = 'AUTH',
     logout = 'LOGOUT',
+    singup = 'SIGNUP',
+    signin = 'SIGNIN',
 }

@@ -4,7 +4,7 @@ import express from 'express';
 import { getTrails, createTrail, updateTrail, deleteTrail, likeTrail } from '../controllers/trails.js';
 
 // new express Router
-export const trailsRouter = express.Router()
+export const trailsRouter = express.Router();
 
 // GET to /trails
 trailsRouter.get('/', getTrails);

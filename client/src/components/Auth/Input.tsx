@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 interface InputProps {
     half?: boolean;
     name: string;
-    onChange?: () => void;
+    onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
     label: string;
     autoFocus?: boolean;
     type?: string;

@@ -13,8 +13,26 @@ import { Icon } from './Icon';
 import { Input } from './Input';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
+import { signup, signin } from '../../redux/actions/auth';
 import { Actions } from '../../constants/actionTypes';
 import { useHistory } from 'react-router-dom';
+
+export interface FormData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+
+// initial state of formData
+const initialState: FormData = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+};
 
 export const Auth = (): JSX.Element => {
     // use styles into classes object
@@ -23,6 +41,7 @@ export const Auth = (): JSX.Element => {
     // showPassword and isSignup state
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
+    const [formData, setFormData] = useState(initialState);
 
     // initialize useDispatch hook
     const dispatch = useDispatch();
@@ -30,13 +49,25 @@ export const Auth = (): JSX.Element => {
     const history = useHistory();
 
     // handle form submit
-    const handleSubmit = () => {
-
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if(isSignup){
+            // sign up
+            dispatch(signup(formData, history));
+        } else {
+            // sign in
+            dispatch(signin(formData, history));
+        }
     };
 
-    // handle changes
-    const handleChange = () => {
-
+    // handle changes, set form data to it's new version
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        // set form data to the new data
+        // spread form data and set new data for a field 
+        setFormData({
+            ...formData,
+            [event.target.name]: event.target.value
+        });
     };
 
     // toggle show password
