@@ -5,6 +5,7 @@ import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { Actions } from '../../constants/actionTypes';
+import decode, { JwtPayload } from 'jwt-decode';
 
 interface User {
     result: {
@@ -27,9 +28,19 @@ export const Navbar = (): JSX.Element => {
 
     // useEffect to fetch user any time the location('/' to '/auth' or vice-versa)
     useEffect(() => {
+        // get token from user.token in localStorage
         const token = user?.token;
 
-        // JWT...
+        // if there is a token, check if it's expired
+        if(token) {
+            // decode jwt token
+            const decodedToken = decode<JwtPayload>(token);
+            // if token is expired
+            if(decodedToken.exp && decodedToken.exp * 1000 < new Date().getTime()){
+                // call logout function
+                logout();
+            }   
+        }
 
         // set User to get what's in localStorage OR user: 'not existent'
         setUser(JSON.parse(localStorage.getItem('profile') || '{"user": "not existent"}'))
