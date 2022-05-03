@@ -15,6 +15,7 @@ import useStyles from './styles';
 import { Trail as TrailStructure } from '../../../api';
 import { useDispatch } from 'react-redux';
 import { deleteTrail, likeTrail } from '../../../redux/actions/trails';
+import { ThumbUpAltOutlined } from "@material-ui/icons";
 
 interface TrailProps {
     trail: TrailStructure;
@@ -31,9 +32,39 @@ export const Trail = (props: TrailProps): JSX.Element => {
     // initialize dispatch
     const dispatch = useDispatch();
 
+    // function to like a trail
     const onLike = () => {
+        // dispatch new like action
         dispatch(likeTrail(trail._id));
+        // set current id to 0
         setCurrentId(0);
+    };
+
+    // profile in localstorage
+    const userProfileInLocalStorage = localStorage.getItem('profile');
+
+    const user = (JSON.parse(userProfileInLocalStorage || '{"message": "not existent"}' ));
+
+    // JSX component for the likes frontend logic
+    const Likes = (): JSX.Element => {
+        // if trail has likes
+        if(trail.likes && trail.likes.length > 0) {
+            // determine if you liked the trail (logged in with google or regular email/pw)
+            return trail.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
+            ? (
+                <>
+                    <ThumbUpAltIcon fontSize="small" />
+                    &nbsp;{ trail.likes.length > 2 ? `You and ${trail.likes.length - 1 } others` : `${trail.likes.length} like${trail.likes.length > 1 ? 's' : ''}`}
+                </>
+            ) : (
+                <>
+                    <ThumbUpAltOutlined fontSize="small" />
+                    &nbsp;{trail.likes.length} {trail.likes.length === 1 ? 'Like' : 'Likes'}
+                </>
+            )
+        }
+        // if trail has no likes
+        return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>
     }
 
     return (
@@ -61,10 +92,8 @@ export const Trail = (props: TrailProps): JSX.Element => {
                 <Typography variant='body2' color="textSecondary">{trail.description}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
-                <Button size='small' color='primary' onClick={onLike}>
-                    <ThumbUpAltIcon fontSize='small' />
-                    &nbsp; Like &nbsp;
-                    {trail.likeCount}
+                <Button size='small' color='primary' onClick={onLike} disabled={!user?.result}>
+                    <Likes />
                 </Button>
                 <Button size='small' color='primary' onClick={() => dispatch(deleteTrail(trail._id))}>
                     <DeleteIcon fontSize='small' />

@@ -8,6 +8,7 @@ interface Trail {
     author: string;
     tags: string[];
     selectedFile: string;
+    likes?: string[];
 }
 
 // Action Creators
