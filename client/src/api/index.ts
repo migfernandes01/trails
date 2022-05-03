@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { FormData } from '../components/Auth/Auth';
+import { ISearch } from '../redux/actions/trails';
 
 // interface to describe a Trail (that we get back when we fetch trails)
 export interface Trail {
@@ -32,6 +33,9 @@ API.interceptors.request.use((req: AxiosRequestConfig): AxiosRequestConfig => {
 
 // function to make a GET request (returns array of type Trail)(with url)
 export const fetchTrails = () => API.get<Trail[]>('/trails');
+
+// function to make a GET request (returns array of type Trail)(with url)
+export const fetchTrailsBySearch = (searchQuery: ISearch) => API.get<Trail[]>(`/trails/search?search=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
 
 // function to make a POST request with url and a new Trail
 export const createTrail = (newTrail: Trail) => API.post('/trails', newTrail);

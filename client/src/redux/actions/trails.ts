@@ -10,17 +10,33 @@ interface Trail {
     tags: string[];
     selectedFile: string;
     likes?: string[];
+};
+
+export interface ISearch {
+    search: string;
+    tags: string;
 }
 
 // Action Creators
 
-// using redux thunk
+// using redux thunk for async actions
 export const getTrails = () => async(dispatch: Dispatch) => {
     try {
         // make a call to api to fetch all trails and get data back
         const { data } = await api.fetchTrails();
         // dispatch new FETCH_ALL action 
         dispatch({type: Actions.fetchAll, payload: data})
+    } catch (error: any) {
+        console.log(error.message);
+    }
+};
+
+// action creator to dispatch a new CREATE action
+export const getTrailsBySearch = (searchQuery: ISearch) => async(dispatch: Dispatch) => {
+    try {
+        const { data } = await api.fetchTrailsBySearch(searchQuery);
+
+        console.log(data);
     } catch (error: any) {
         console.log(error.message);
     }
