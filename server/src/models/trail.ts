@@ -5,6 +5,7 @@ interface Trail {
     title: string;
     description: string;
     author: string;
+    authorId: string;
     tags: string[];
     selectedFile: string;
     likes: string[];
@@ -16,6 +17,7 @@ const trailSchema = new mongoose.Schema<Trail>({
     title: String,
     description: String,
     author: String,
+    authorId: String,
     tags: [String],
     selectedFile: String,
     likes: {

@@ -6,6 +6,7 @@ export interface Trail {
     _id?: number;
     title: string;
     description: string;
+    authorId?: string;
     author: string;
     tags: string[];
     selectedFile: string;

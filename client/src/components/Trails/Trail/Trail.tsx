@@ -79,11 +79,13 @@ export const Trail = (props: TrailProps): JSX.Element => {
                 <Typography variant='h6'>{trail.author}</Typography>
                 <Typography variant='body2'>{moment(trail.createdAt).fromNow()}</Typography>
             </div>
-            <div className={classes.overlay2}>
-                <Button style={{color: 'white'}} size='small' onClick={() => setCurrentId(trail._id)}>
-                    <MoreHorizIcon fontSize='medium' />
-                </Button>
-            </div>
+            {(user?.result?.googleId === trail.authorId || user?.result?._id === trail.authorId) && (
+                <div className={classes.overlay2}>
+                    <Button style={{color: 'white'}} size='small' onClick={() => setCurrentId(trail._id)}>
+                        <MoreHorizIcon fontSize='medium' />
+                    </Button>
+                </div>
+            )}
             <div className={classes.description}>
                 <Typography variant='body2' color="textSecondary">{trail.tags.map((tag) => `#${tag} `)}</Typography>
             </div>
@@ -95,10 +97,12 @@ export const Trail = (props: TrailProps): JSX.Element => {
                 <Button size='small' color='primary' onClick={onLike} disabled={!user?.result}>
                     <Likes />
                 </Button>
-                <Button size='small' color='primary' onClick={() => dispatch(deleteTrail(trail._id))}>
+                {(user?.result?.googleId === trail.authorId || user?.result?._id === trail.authorId) && (
+                    <Button size='small' color='primary' onClick={() => dispatch(deleteTrail(trail._id))}>
                     <DeleteIcon fontSize='small' />
                     Delete
                 </Button>
+                )}           
             </CardActions>
         </Card>
     );

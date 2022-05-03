@@ -75,7 +75,7 @@ export const Form = (props: FormProps): JSX.Element => {
             dispatch(updateTrail(currentId, { ...trailData, author: user.result.name }));
         } else {    // else
             // dispatch a new create action (data from form)
-            dispatch(createTrail({ ...trailData, author: user.result.name }));
+            dispatch(createTrail({ ...trailData, author: user.result.name, authorId: user?.result._id || user?.result.googleId }));
         }
         onClear();  
     }

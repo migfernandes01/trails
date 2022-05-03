@@ -4,6 +4,7 @@ const trailSchema = new mongoose.Schema({
     title: String,
     description: String,
     author: String,
+    authorId: String,
     tags: [String],
     selectedFile: String,
     likes: {

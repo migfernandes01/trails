@@ -6,6 +6,7 @@ interface Trail {
     title: string;
     description: string;
     author: string;
+    authorId: string;
     tags: string[];
     selectedFile: string;
     likes?: string[];
