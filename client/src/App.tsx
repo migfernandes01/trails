@@ -17,7 +17,7 @@ const App = (): JSX.Element => {
                 <Switch>
                     <Route exact path='/' component={() => <Redirect to='/trails' />} />
                     <Route exact path='/trails' component={Home} />
-                    <Route exact path='/trails/search' component={Home} />
+                    <Route path='/trails/search' component={Home} />
                     <Route exact path='/trails/:id' component={TrailDetails} />
                     <Route exact path='/auth' component={() => (!user.result ? <Auth /> : <Redirect to='/trails' />)} />
                 </Switch>

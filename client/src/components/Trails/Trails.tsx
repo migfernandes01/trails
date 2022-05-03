@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, CircularProgress } from '@material-ui/core';
 import { Trail } from './Trail/Trail';
 import useStyles from './styles';
@@ -17,8 +17,6 @@ export const Trails = (props: TrailsProps): JSX.Element => {
 
     // get trails from redux global state using selector
     const trails: TrailStructure[] = useSelector((state: any) => state.trails);
-
-    console.log(trails);
 
     return (
         <>

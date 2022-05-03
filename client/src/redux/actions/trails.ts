@@ -25,7 +25,7 @@ export const getTrails = () => async(dispatch: Dispatch) => {
         // make a call to api to fetch all trails and get data back
         const { data } = await api.fetchTrails();
         // dispatch new FETCH_ALL action 
-        dispatch({type: Actions.fetchAll, payload: data})
+        dispatch({type: Actions.fetchAll, payload: data});
     } catch (error: any) {
         console.log(error.message);
     }
@@ -34,9 +34,10 @@ export const getTrails = () => async(dispatch: Dispatch) => {
 // action creator to dispatch a new CREATE action
 export const getTrailsBySearch = (searchQuery: ISearch) => async(dispatch: Dispatch) => {
     try {
+        // call api endpoint to fetch trails by search with the serachQuery
         const { data } = await api.fetchTrailsBySearch(searchQuery);
-
-        console.log(data);
+        // dispatch new FETCH_BY_SEARCH action with payload we got back from backend 
+        dispatch({type: Actions.fetchBySearch, payload: data});
     } catch (error: any) {
         console.log(error.message);
     }

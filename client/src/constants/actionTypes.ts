@@ -1,5 +1,6 @@
 export enum Actions {
     fetchAll = 'FETCH_ALL',
+    fetchBySearch = 'FETCH_BY_SEARCH',
     create = 'CREATE',
     update = 'UPDATE',
     delete = 'DELETE',

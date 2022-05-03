@@ -13,9 +13,29 @@ export const getTrails = async (req: Request, res: Response): Promise<any> => {
         res.status(200).json(trails);
     } catch(err: any) {
         // send error if there's any
-        res.status(404).json({message: err.message})
+        res.status(404).json({message: err.message});
     }
-}
+};
+
+// get trails by search controller
+export const getTrailsBySearch = async (req: Request, res: Response) => {
+    // extract search and tags from req query
+    const { search, tags } = req.query;
+    try {
+        // type guard
+        if(typeof search === 'string' && typeof tags === 'string' ){
+            // ignore case on search. Trail === trail
+            const title = new RegExp(search, 'i');
+            // find trails with either the title passed or one the tags, after pasring tags to array(split by ,)
+            const trails = await Trail.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ] });
+            // send trails as data(JSON) with status of 200
+            res.status(200).json({ data: trails });
+        }    
+    } catch (error: any) {
+        // send error if there's any
+        res.status(404).json({message: error.message});
+    }
+};
 
 //  create trail controller
 export const createTrail = async (req: Request, res: Response): Promise<any> => {
@@ -33,7 +53,7 @@ export const createTrail = async (req: Request, res: Response): Promise<any> => 
         // send error if there's any
         res.status(409).json({message: err.message})
     }
-}
+};
 
 // update trail controller
 export const updateTrail = async (req: Request, res: Response): Promise<any> => {
@@ -52,7 +72,7 @@ export const updateTrail = async (req: Request, res: Response): Promise<any> => 
     
     // send the new updated trail
     res.json(updatedTrail);
-}
+};
 
 // delete trail controller
 export const deleteTrail = async (req: Request, res: Response): Promise<any> => {
@@ -106,4 +126,4 @@ export const likeTrail = async (req: Request, res: Response): Promise<any> => {
         const updatedTrail = await Trail.findByIdAndUpdate(_id, trail, { new: true });
         res.json({updatedTrail});
     }
-}
+};

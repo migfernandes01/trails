@@ -16,6 +16,8 @@ export default (trails: Trail[] = [], action: AnyAction) => {
     switch(action.type) {
         case Actions.fetchAll:
             return action.payload;
+        case Actions.fetchBySearch:
+            return action.payload.data;
         case Actions.create:
             return [...trails, action.payload];
         case Actions.update:

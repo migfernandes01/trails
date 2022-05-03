@@ -38,7 +38,7 @@ export const Home = () => {
     const page = query.get('page') || 1;
 
     // check URL for search query
-    const seatch = query.get('search');
+    const searchQuery = query.get('search');
     
     // dispatch new action to fetch trails when component is rendered
     useEffect(() => {
@@ -63,9 +63,10 @@ export const Home = () => {
     // function to handle search
     const searchTrail = () => {
         // if we have a non-empty search terms
-        if(search.trim()){
+        if(search.trim() !== 'none' || tags.length > 0){
             // dispatch new action -> fetch search trail
             dispatch(getTrailsBySearch({ search, tags: tags.join(',') }));
+            history.push(`/trails/search?search=${search || 'none'}&tags=${tags.join(',')}`);
         } else {    // if there is no search terms
             // redirect to homepage
             history.push('/');

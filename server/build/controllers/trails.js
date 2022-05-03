@@ -23,6 +23,26 @@ export const getTrails = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(404).json({ message: err.message });
     }
 });
+// get trails by search controller
+export const getTrailsBySearch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // extract search and tags from req query
+    const { search, tags } = req.query;
+    try {
+        // type guard
+        if (typeof search === 'string' && typeof tags === 'string') {
+            // ignore case on search. Trail === trail
+            const title = new RegExp(search, 'i');
+            // find trails with either the title passed or one the tags, after pasring tags to array(split by ,)
+            const trails = yield Trail.find({ $or: [{ title }, { tags: { $in: tags.split(',') } }] });
+            // send trails as data(JSON) with status of 200
+            res.status(200).json({ data: trails });
+        }
+    }
+    catch (error) {
+        // send error if there's any
+        res.status(404).json({ message: error.message });
+    }
+});
 //  create trail controller
 export const createTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // get trail from request body
