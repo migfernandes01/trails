@@ -27,8 +27,9 @@ export const getTrails = (req, res) => __awaiter(void 0, void 0, void 0, functio
 export const createTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // get trail from request body
     const trail = req.body;
-    // create new Trail passing trail
-    const newTrail = new Trail(trail);
+    console.log(res.locals.userId);
+    // create new Trail passing trail, author and new date
+    const newTrail = new Trail(Object.assign(Object.assign({}, trail), { createdAt: new Date().toISOString() }));
     try {
         // try to save it
         yield newTrail.save();

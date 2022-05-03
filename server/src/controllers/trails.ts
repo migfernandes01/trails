@@ -21,8 +21,9 @@ export const getTrails = async (req: Request, res: Response): Promise<any> => {
 export const createTrail = async (req: Request, res: Response): Promise<any> => {
     // get trail from request body
     const trail = req.body;
-    // create new Trail passing trail
-    const newTrail = new Trail(trail);
+    console.log(res.locals.userId);
+    // create new Trail passing trail, author and new date
+    const newTrail = new Trail({ ...trail, createdAt: new Date().toISOString() });
     try {
         // try to save it
         await newTrail.save();

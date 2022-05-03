@@ -9,7 +9,9 @@ import { History } from 'history';
 export const signup = (formData: FormData, history: History<unknown>) => async (dispatch: Dispatch) => {
     try {
         // log in user
-
+        const { data } = await api.signup(formData);
+        // dispatch new auth action
+        dispatch({ type: Actions.auth, data });
         // redirect user to /
         history.push('/');
     } catch (error: unknown) {
@@ -20,7 +22,9 @@ export const signup = (formData: FormData, history: History<unknown>) => async (
 export const signin = (formData: FormData, history: History<unknown>) => async (dispatch: Dispatch) => {
     try {
         // sign in user
-
+        const { data } = await api.signin(formData);
+        // dispatch new auth action
+        dispatch({ type: Actions.auth, data });
         // redirect user to /
         history.push('/');
     } catch (error: unknown) {

@@ -14,27 +14,31 @@ import jwt from 'jsonwebtoken';
 export const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        // get auth token
-        const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
-        // if token exists
-        if (token) {
-            // check if is a google auth token or our own
-            const isCustomToken = token.length < 500;
-            let decodedData;
-            // if it's our custom token (not google's)
-            if (isCustomToken) {
-                // decodedData = jwt.verify(token, secret key)
-                decodedData = jwt.verify(token, 'secretword');
-                // set userId on request = decodedData.id
-                // req.userId = decodedData.id;
-                res.locals.userId = decodedData.id;
-            }
-            else { // if it's google auth token 
-                // decodedData = jwt.decode(token)
-                decodedData = jwt.decode(token);
-                // set userId on request = decodedData.sub
-                // req.userId = decodedData?.sub;
-                res.locals.userId = decodedData === null || decodedData === void 0 ? void 0 : decodedData.sub;
+        // type guard
+        if (typeof req.headers.authorization === 'string') {
+            // get auth token
+            const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
+            // if token exists
+            if (token) {
+                // check if is a google auth token or our own
+                const isCustomToken = token.length < 500;
+                let decodedData;
+                // if it's our custom token (not google's)
+                if (isCustomToken) {
+                    // decodedData = jwt.verify(token, secret key)
+                    decodedData = jwt.verify(token, 'secretword');
+                    // set userId on request = decodedData.id
+                    // req.userId = decodedData.id;
+                    res.locals.userId = decodedData.id;
+                    console.log('RES LOCALS:', res.locals);
+                }
+                else { // if it's google auth token 
+                    // decodedData = jwt.decode(token)
+                    decodedData = jwt.decode(token);
+                    // set userId on request = decodedData.sub
+                    // req.userId = decodedData?.sub;
+                    res.locals.userId = decodedData === null || decodedData === void 0 ? void 0 : decodedData.sub;
+                }
             }
         }
         // move on to next middleware

@@ -10,7 +10,6 @@ import { RootState } from "../../redux/reducers";
 
 // interface to describe component state
 interface FormState {
-    author: string;
     title: string;
     description: string;
     tags: string[];
@@ -26,69 +25,76 @@ export const Form = (props: FormProps): JSX.Element => {
     // extract currentId and setCurrentId from props
     const { currentId, setCurrentId } = props;
 
-    // 
+    // get trail from redux global state
     const trail = useSelector((state: RootState) => currentId ? state.trails.find((t: Trail) => t._id === currentId) : null);
 
     // trailData object state
     const [trailData, setTrailData] = useState({
-        author: '',
         title: '',
         description: '',
         tags: [''],
         selectedFile: '',
     });
 
+    // profile in localstorage
+    const userProfileInLocalStorage = localStorage.getItem('profile');
+
+    const [user, setUser] = useState(JSON.parse(userProfileInLocalStorage || '{"message": "not existent"}' ));
+
     // get styles into classes object
     const classes = useStyles();
 
     // instance of dispatch
-    const dispatch = useDispatch();
+    const dispatch = useDispatch();   
 
+    // any time trail(redux global state) changes set trail data
     useEffect(() => {
         if(trail){
             setTrailData(trail)
         }
     }, [trail]);
 
+    // if user is not found
+    if(!user.result) {
+        return (
+            <Paper className={classes.paper}>
+                <Typography variant='h6' align='center'>
+                    Please sign in to add your trails and like other trails  
+                </Typography>
+            </Paper>
+        );
+    }  
+
     // function to handle form submittion
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
-        
+
         // if current ID is not null (means we are editing a trail)
         if(currentId) {
             // dispatch a new update action (id, data from form)
-            dispatch(updateTrail(currentId, trailData));
+            dispatch(updateTrail(currentId, { ...trailData, author: user.result.name }));
         } else {    // else
             // dispatch a new create action (data from form)
-            dispatch(createTrail(trailData));
+            dispatch(createTrail({ ...trailData, author: user.result.name }));
         }
-        onClear();
+        onClear();  
     }
 
     // function to handle clear form
     const onClear = (): void => {
         setCurrentId(null);
         setTrailData({
-            author: '',
             title: '',
             description: '',
             tags: [''],
             selectedFile: '',
         })
-    }
+    }  
 
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'>{currentId ? 'Editing a' : 'Creating a new'} Trail</Typography>
-                <TextField
-                    name='author' 
-                    variant='outlined' 
-                    label='Author' 
-                    fullWidth 
-                    value={trailData.author}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTrailData({ ...trailData, author: e.target.value })}
-                />
                 <TextField
                     name='title' 
                     variant='outlined' 
