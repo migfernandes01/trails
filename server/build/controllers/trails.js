@@ -70,6 +70,10 @@ export const deleteTrail = (req, res) => __awaiter(void 0, void 0, void 0, funct
 export const likeTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // extract id from request
     const { id: _id } = req.params;
+    // check if user is authenticated
+    if (!res.locals.userId) {
+        return res.json({ message: 'Unauthenticated' });
+    }
     // if id is not valid
     if (!mongoose.Types.ObjectId.isValid(_id)) {
         return res.status(404).send('No exisitng trail with that id');
@@ -78,8 +82,19 @@ export const likeTrail = (req, res) => __awaiter(void 0, void 0, void 0, functio
     const trail = yield Trail.findById(_id);
     // type guard
     if (trail) {
+        // get index of userId in trail.likes array
+        const index = trail === null || trail === void 0 ? void 0 : trail.likes.findIndex((id) => id === String(res.locals.userId));
+        // if id is not in trail.likes array
+        if (index === -1) {
+            // like post
+            trail.likes.push(res.locals.userId);
+        }
+        else { // if userId is in trail.likes array
+            // dislike post
+            trail.likes = trail.likes.filter((id) => id !== String(res.locals.userId));
+        }
         // update like count
-        const updatedTrail = yield Trail.findByIdAndUpdate(_id, { likeCount: trail.likeCount + 1 }, { new: true });
+        const updatedTrail = yield Trail.findByIdAndUpdate(_id, trail, { new: true });
         res.json({ updatedTrail });
     }
 });

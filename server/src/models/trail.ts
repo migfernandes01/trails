@@ -7,7 +7,7 @@ interface Trail {
     author: string;
     tags: string[];
     selectedFile: string;
-    likeCount: number;
+    likes: string[];
     createdAt: Date;
 }
 
@@ -18,9 +18,9 @@ const trailSchema = new mongoose.Schema<Trail>({
     author: String,
     tags: [String],
     selectedFile: String,
-    likeCount: {
-        type: Number,
-        default: 0
+    likes: {
+        type: [String],
+        default: []
     },
     createdAt: {
         type: Date,

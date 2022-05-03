@@ -26,13 +26,15 @@ export const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
                 // decodedData = jwt.verify(token, secret key)
                 decodedData = jwt.verify(token, 'secretword');
                 // set userId on request = decodedData.id
-                req.userId = decodedData.id;
+                // req.userId = decodedData.id;
+                res.locals.userId = decodedData.id;
             }
             else { // if it's google auth token 
                 // decodedData = jwt.decode(token)
                 decodedData = jwt.decode(token);
                 // set userId on request = decodedData.sub
-                req.userId = decodedData === null || decodedData === void 0 ? void 0 : decodedData.sub;
+                // req.userId = decodedData?.sub;
+                res.locals.userId = decodedData === null || decodedData === void 0 ? void 0 : decodedData.sub;
             }
         }
         // move on to next middleware
