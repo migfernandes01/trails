@@ -35,6 +35,22 @@ export const getTrails = (page: string | number) => async(dispatch: Dispatch) =>
     }
 };
 
+// action creator to dispatch a new fetch post action
+export const getTrail = (id: string) => async(dispatch: Dispatch) => {
+    try {
+        // dispatch startLoading action
+        dispatch({ type: Actions.startLoading });
+        // make a call to api to fetch all trails and get data back
+        const { data } = await api.fetchTrail(id);
+        // dispatch new FETCH_ALL action 
+        dispatch({type: Actions.fetchTrail, payload: data});
+        //dispatch endLoading action
+        dispatch({ type: Actions.endLoading });
+    } catch (error: any) {
+        console.log(error.message);
+    }
+}
+
 // action creator to dispatch a new CREATE action
 export const getTrailsBySearch = (searchQuery: ISearch) => async(dispatch: Dispatch) => {
     try {

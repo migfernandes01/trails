@@ -37,6 +37,11 @@ export default (state: {isLoading: boolean; trails: Trail[]} = { isLoading: true
                 currentPage: action.payload.currentPage,
                 numberOfPages: action.payload.numberOfPages,
             };
+        case Actions.fetchTrail:
+            return {
+                ...state,
+                trail: action.payload
+            }
         case Actions.fetchBySearch:
             return {
                 ...state,

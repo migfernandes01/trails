@@ -5,8 +5,10 @@ import {
     CardContent,
     CardMedia,
     Button,
-    Typography
+    Typography,
+    ButtonBase
 } from '@material-ui/core';
+
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -16,6 +18,7 @@ import { Trail as TrailStructure } from '../../../api';
 import { useDispatch } from 'react-redux';
 import { deleteTrail, likeTrail } from '../../../redux/actions/trails';
 import { ThumbUpAltOutlined } from "@material-ui/icons";
+import { useHistory } from 'react-router-dom';
 
 interface TrailProps {
     trail: TrailStructure;
@@ -32,6 +35,8 @@ export const Trail = (props: TrailProps): JSX.Element => {
     // initialize dispatch
     const dispatch = useDispatch();
 
+    const history = useHistory();
+
     // function to like a trail
     const onLike = () => {
         // dispatch new like action
@@ -39,6 +44,9 @@ export const Trail = (props: TrailProps): JSX.Element => {
         // set current id to 0
         setCurrentId(0);
     };
+
+    // redirect user to specific trail details page
+    const openTrail = () => history.push(`/trails/${trail._id}`)
 
     // profile in localstorage
     const userProfileInLocalStorage = localStorage.getItem('profile');
@@ -69,30 +77,32 @@ export const Trail = (props: TrailProps): JSX.Element => {
 
     return (
         <Card className={classes.card} raised elevation={6}>
-            <CardMedia 
-                className={classes.media} 
-                image={trail.selectedFile 
-                    || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} 
-                title={trail.title} 
-            />
-            <div className={classes.overlay}>
-                <Typography variant='h6'>{trail.author}</Typography>
-                <Typography variant='body2'>{moment(trail.createdAt).fromNow()}</Typography>
-            </div>
-            {(user?.result?.googleId === trail.authorId || user?.result?._id === trail.authorId) && (
-                <div className={classes.overlay2}>
-                    <Button style={{color: 'white'}} size='small' onClick={() => setCurrentId(trail._id)}>
-                        <MoreHorizIcon fontSize='medium' />
-                    </Button>
+            <ButtonBase className={classes.cardAction} onClick={openTrail}>       
+                <CardMedia 
+                    className={classes.media} 
+                    image={trail.selectedFile 
+                        || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} 
+                    title={trail.title} 
+                />
+                <div className={classes.overlay}>
+                    <Typography variant='h6'>{trail.author}</Typography>
+                    <Typography variant='body2'>{moment(trail.createdAt).fromNow()}</Typography>
                 </div>
-            )}
-            <div className={classes.description}>
-                <Typography variant='body2' color="textSecondary">{trail.tags.map((tag) => `#${tag} `)}</Typography>
-            </div>
-            <Typography className={classes.title} variant='h5' gutterBottom>{trail.title}</Typography>
-            <CardContent>
-                <Typography variant='body2' color="textSecondary">{trail.description}</Typography>
-            </CardContent>
+                {(user?.result?.googleId === trail.authorId || user?.result?._id === trail.authorId) && (
+                    <div className={classes.overlay2}>
+                        <Button style={{color: 'white'}} size='small' onClick={() => setCurrentId(trail._id)}>
+                            <MoreHorizIcon fontSize='medium' />
+                        </Button>
+                    </div>
+                )}
+                <div className={classes.description}>
+                    <Typography variant='body2' color="textSecondary">{trail.tags.map((tag) => `#${tag} `)}</Typography>
+                </div>
+                <Typography className={classes.title} variant='h5' gutterBottom>{trail.title}</Typography>
+                <CardContent>
+                    <Typography variant='body2' color="textSecondary">{trail.description}</Typography>
+                </CardContent>
+            </ButtonBase>
             <CardActions className={classes.cardActions}>
                 <Button size='small' color='primary' onClick={onLike} disabled={!user?.result}>
                     <Likes />

@@ -31,6 +31,20 @@ export const getTrails = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(404).json({ message: err.message });
     }
 });
+// // get trail by id
+export const getTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // extract id from params
+    const { id } = req.params;
+    try {
+        // find by id and send it as JSON
+        const trail = yield Trail.findById(id);
+        res.status(200).json(trail);
+    }
+    catch (err) {
+        // send error if there's any
+        res.status(404).json({ message: err.message });
+    }
+});
 // get trails by search controller
 export const getTrailsBySearch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // extract search and tags from req query

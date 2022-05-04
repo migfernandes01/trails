@@ -1,5 +1,6 @@
 export enum Actions {
     fetchAll = 'FETCH_ALL',
+    fetchTrail = 'FETCH_TRAIL',
     fetchBySearch = 'FETCH_BY_SEARCH',
     create = 'CREATE',
     update = 'UPDATE',

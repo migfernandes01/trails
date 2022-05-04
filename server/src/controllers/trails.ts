@@ -26,6 +26,21 @@ export const getTrails = async (req: Request, res: Response): Promise<any> => {
     }
 };
 
+// // get trail by id
+export const getTrail =async (req: Request, res: Response) => {
+    // extract id from params
+    const { id } = req.params;
+
+    try {
+        // find by id and send it as JSON
+        const trail = await Trail.findById(id);
+        res.status(200).json(trail);
+    } catch (err: any) {
+        // send error if there's any
+        res.status(404).json({message: err.message});
+    }
+};
+
 // get trails by search controller
 export const getTrailsBySearch = async (req: Request, res: Response) => {
     // extract search and tags from req query

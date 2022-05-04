@@ -12,6 +12,7 @@ interface TrailStyle {
     description: {};
     title: {};
     cardActions: {};
+    cardAction: {};
 }
 
 // styles for Trail
@@ -63,5 +64,9 @@ export default makeStyles((): TrailStyle => ({
         padding: '0 16px 8px 16px',
         display: 'flex',
         justifyContent: 'space-between',
+    },
+    cardAction: {
+        display: 'block',
+        textAlign: 'initial',
     },
 }));
