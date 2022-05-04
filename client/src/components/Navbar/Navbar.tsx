@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import trails from '../../images/mountain.png';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
@@ -65,9 +64,8 @@ export const Navbar = (): JSX.Element => {
         <AppBar className={classes.appBar} position="static" color="inherit">
             <div className={classes.brandContainer}>
                 <Typography component={Link} to='/' className={classes.heading} variant="h2" align="center">
-                    Trails
+                    🏔️🥾🚲
                 </Typography>
-                <img className={classes.image} src={trails} alt='trails' height='60' />
             </div>    
             <Toolbar className={classes.toolbar}>
                 {user && user.result ? (

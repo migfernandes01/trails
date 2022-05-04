@@ -23,7 +23,7 @@ export const Trails = (props: TrailsProps): JSX.Element => {
             {!trails.length ? <CircularProgress /> : (
                 <Grid className={classes.mainContainer} container alignItems="stretch" spacing={3}>
                     {trails.map((trail: TrailStructure) => (
-                        <Grid key={trail._id} item xs={12} sm={6}>
+                        <Grid key={trail._id} item xs={12} sm={12} md={6} lg={3}>
                             <Trail trail={trail} setCurrentId={setCurrentId} />
                         </Grid>
                     ))}
