@@ -68,12 +68,14 @@ export const getTrailsBySearch = (searchQuery: ISearch) => async(dispatch: Dispa
 };
 
 // action creator to dispatch a new CREATE action
-export const createTrail = (trail: Trail ) => async(dispatch: Dispatch) => {
+export const createTrail = (trail: Trail, history: any ) => async(dispatch: Dispatch) => {
     try {
         // dispatch startLoading action
         dispatch({ type: Actions.startLoading });
         // make a call to api to create trail and get data back
         const { data } = await api.createTrail(trail);
+        // push user to /trails/id of created trail
+        history.push(`/trails/${data._id}`);
         // dispatch new CREATE action 
         dispatch({ type: Actions.create, payload: data });
         //dispatch endLoading action

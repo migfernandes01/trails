@@ -7,6 +7,7 @@ import { Trail } from "../../api";
 import { useSelector, useDispatch } from 'react-redux';
 import { createTrail, updateTrail } from '../../redux/actions/trails';
 import { RootState } from "../../redux/reducers";
+import { useHistory } from 'react-router-dom';
 
 // interface to describe component state
 interface FormState {
@@ -47,6 +48,9 @@ export const Form = (props: FormProps): JSX.Element => {
     // instance of dispatch
     const dispatch = useDispatch();   
 
+    // instance of history
+    const history = useHistory(); 
+
     // any time trail(redux global state) changes set trail data
     useEffect(() => {
         if(trail){
@@ -75,7 +79,8 @@ export const Form = (props: FormProps): JSX.Element => {
             dispatch(updateTrail(currentId, { ...trailData, author: user.result.name }));
         } else {    // else
             // dispatch a new create action (data from form)
-            dispatch(createTrail({ ...trailData, author: user.result.name, authorId: user?.result._id || user?.result.googleId }));
+            dispatch(createTrail({ ...trailData, author: user.result.name, authorId: user?.result._id || user?.result.googleId }, history));
+            
         }
         onClear();  
     }
