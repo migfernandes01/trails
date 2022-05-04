@@ -7,12 +7,12 @@ import { auth } from '../middleware/auth.js';
 // new express Router
 export const trailsRouter = express.Router();
 
+// GET to /trails/search
+trailsRouter.get('/search', getTrailsBySearch);
 // GET to /trails
 trailsRouter.get('/', getTrails);
 // GET to /trails/:id
 trailsRouter.get('/:id', getTrail);
-// GET to /trails/search
-trailsRouter.get('/search', getTrailsBySearch);
 // POST to /trails (auth middleware, controller)
 trailsRouter.post('/', auth, createTrail);
 // PATCH to /trails/:id (auth middleware, controller)

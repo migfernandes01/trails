@@ -38,7 +38,7 @@ export const fetchTrails = (page: number | string) => API.get<Trail[]>(`/trails?
 export const fetchTrail = (id: string) => API.get<Trail>(`/trails/${id}`);
 
 // function to make a GET request (returns array of type Trail)(with url)
-export const fetchTrailsBySearch = (searchQuery: ISearch) => API.get<Trail[]>(`/trails/search?search=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
+export const fetchTrailsBySearch = (searchQuery: ISearch) => API.get<Trail[]>(`/trails/search?search=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`)
 
 // function to make a POST request with url and a new Trail
 export const createTrail = (newTrail: Trail) => API.post('/trails', newTrail);

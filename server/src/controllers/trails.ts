@@ -26,7 +26,7 @@ export const getTrails = async (req: Request, res: Response): Promise<any> => {
     }
 };
 
-// // get trail by id
+// get trail by id
 export const getTrail =async (req: Request, res: Response) => {
     // extract id from params
     const { id } = req.params;
@@ -45,6 +45,7 @@ export const getTrail =async (req: Request, res: Response) => {
 export const getTrailsBySearch = async (req: Request, res: Response) => {
     // extract search and tags from req query
     const { search, tags } = req.query;
+    
     try {
         // type guard
         if(typeof search === 'string' && typeof tags === 'string' ){

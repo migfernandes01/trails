@@ -31,7 +31,7 @@ export const getTrails = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(404).json({ message: err.message });
     }
 });
-// // get trail by id
+// get trail by id
 export const getTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // extract id from params
     const { id } = req.params;
