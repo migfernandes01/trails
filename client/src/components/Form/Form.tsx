@@ -25,8 +25,8 @@ export const Form = (props: FormProps): JSX.Element => {
     // extract currentId and setCurrentId from props
     const { currentId, setCurrentId } = props;
 
-    // get trail from redux global state
-    const trail = useSelector((state: RootState) => currentId ? state.trails.find((t: Trail) => t._id === currentId) : null);
+    // get trail from redux global state RootState
+    const trail = useSelector((state: any) => currentId ? state.trails.find((t: Trail) => t._id === currentId) : null);
 
     // trailData object state
     const [trailData, setTrailData] = useState({
@@ -92,7 +92,7 @@ export const Form = (props: FormProps): JSX.Element => {
     }  
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={6}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'>{currentId ? 'Editing a' : 'Creating a new'} Trail</Typography>
                 <TextField

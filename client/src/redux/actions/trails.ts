@@ -22,10 +22,14 @@ export interface ISearch {
 // using redux thunk for async actions
 export const getTrails = (page: string | number) => async(dispatch: Dispatch) => {
     try {
+        // dispatch startLoading action
+        dispatch({ type: Actions.startLoading });
         // make a call to api to fetch all trails and get data back
         const { data } = await api.fetchTrails(page);
         // dispatch new FETCH_ALL action 
         dispatch({type: Actions.fetchAll, payload: data});
+        //dispatch endLoading action
+        dispatch({ type: Actions.endLoading });
     } catch (error: any) {
         console.log(error.message);
     }
@@ -34,10 +38,14 @@ export const getTrails = (page: string | number) => async(dispatch: Dispatch) =>
 // action creator to dispatch a new CREATE action
 export const getTrailsBySearch = (searchQuery: ISearch) => async(dispatch: Dispatch) => {
     try {
+        // dispatch startLoading action
+        dispatch({ type: Actions.startLoading });
         // call api endpoint to fetch trails by search with the serachQuery
         const { data } = await api.fetchTrailsBySearch(searchQuery);
         // dispatch new FETCH_BY_SEARCH action with payload we got back from backend 
         dispatch({type: Actions.fetchBySearch, payload: data});
+         //dispatch endLoading action
+         dispatch({ type: Actions.endLoading });
     } catch (error: any) {
         console.log(error.message);
     }
@@ -46,10 +54,14 @@ export const getTrailsBySearch = (searchQuery: ISearch) => async(dispatch: Dispa
 // action creator to dispatch a new CREATE action
 export const createTrail = (trail: Trail ) => async(dispatch: Dispatch) => {
     try {
+        // dispatch startLoading action
+        dispatch({ type: Actions.startLoading });
         // make a call to api to create trail and get data back
         const { data } = await api.createTrail(trail);
         // dispatch new CREATE action 
         dispatch({ type: Actions.create, payload: data });
+        //dispatch endLoading action
+        dispatch({ type: Actions.endLoading });
     } catch (error: any) {
         console.log(error.message);
     }

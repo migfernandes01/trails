@@ -18,8 +18,18 @@ interface IState {
     numberOfPages: number;
 }
 
-export default (state: any[] = [], action: AnyAction) => {
+export default (state: {isLoading: boolean; trails: Trail[]} = { isLoading: true, trails: [] }, action: AnyAction) => {
     switch(action.type) {
+        case Actions.startLoading:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case Actions.endLoading:
+            return {
+                ...state,
+                isLoading: false
+            }
         case Actions.fetchAll:
             return {
                 ...state,
@@ -33,14 +43,23 @@ export default (state: any[] = [], action: AnyAction) => {
                 trails: action.payload.data,
             };
         case Actions.create:
-            return [...state, action.payload];
+            return {
+                ...state,
+                trails: [...state.trails, action.payload]
+            }
         case Actions.update:
         case Actions.like:
             // return new array of trails
-            return state.map((trail) => trail._id === action.payload._id ? action.payload : trail);
+            return {
+                ...state,
+                trails: state.trails.map((trail) => trail._id === action.payload._id ? action.payload : trail)
+            }
         case Actions.delete:
             // keep all posts EXCEPT the one where id === action.payload(deleted post id)
-            return state.filter((trail) => trail._id !== action.payload);
+            return {
+                ...state,
+                trails: state.trails.filter((trail) => trail._id !== action.payload)
+            }
         default:
             return state;
     }
