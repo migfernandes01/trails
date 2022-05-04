@@ -16,11 +16,11 @@ export const Trails = (props: TrailsProps): JSX.Element => {
     const classes = useStyles();
 
     // get trails from redux global state using selector
-    const trails: TrailStructure[] = useSelector((state: any) => state.trails);
+    const { trails } = useSelector((state: any) => state.trails);
 
     return (
         <>
-            {!trails.length ? <CircularProgress /> : (
+            {!trails?.length ? <CircularProgress /> : (
                 <Grid className={classes.mainContainer} container alignItems="stretch" spacing={3}>
                     {trails.map((trail: TrailStructure) => (
                         <Grid key={trail._id} item xs={12} sm={12} md={6} lg={3}>

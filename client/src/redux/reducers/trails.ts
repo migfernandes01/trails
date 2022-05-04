@@ -12,22 +12,36 @@ interface Trail {
     createdAt: Date;
 }
 
-export default (trails: Trail[] = [], action: AnyAction) => {
+interface IState {
+    trails: Trail[];
+    currentPage: number;
+    numberOfPages: number;
+}
+
+export default (state: any[] = [], action: AnyAction) => {
     switch(action.type) {
         case Actions.fetchAll:
-            return action.payload;
+            return {
+                ...state,
+                trails: action.payload.data,
+                currentPage: action.payload.currentPage,
+                numberOfPages: action.payload.numberOfPages,
+            };
         case Actions.fetchBySearch:
-            return action.payload.data;
+            return {
+                ...state,
+                trails: action.payload.data,
+            };
         case Actions.create:
-            return [...trails, action.payload];
+            return [...state, action.payload];
         case Actions.update:
         case Actions.like:
             // return new array of trails
-            return trails.map((trail) => trail._id === action.payload._id ? action.payload : trail);
+            return state.map((trail) => trail._id === action.payload._id ? action.payload : trail);
         case Actions.delete:
             // keep all posts EXCEPT the one where id === action.payload(deleted post id)
-            return trails.filter((trail) => trail._id !== action.payload);
+            return state.filter((trail) => trail._id !== action.payload);
         default:
-            return trails;
+            return state;
     }
 };

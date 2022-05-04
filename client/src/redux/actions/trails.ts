@@ -20,10 +20,10 @@ export interface ISearch {
 // Action Creators
 
 // using redux thunk for async actions
-export const getTrails = () => async(dispatch: Dispatch) => {
+export const getTrails = (page: string | number) => async(dispatch: Dispatch) => {
     try {
         // make a call to api to fetch all trails and get data back
-        const { data } = await api.fetchTrails();
+        const { data } = await api.fetchTrails(page);
         // dispatch new FETCH_ALL action 
         dispatch({type: Actions.fetchAll, payload: data});
     } catch (error: any) {

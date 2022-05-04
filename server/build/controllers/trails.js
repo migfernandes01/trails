@@ -11,12 +11,20 @@ import mongoose from 'mongoose';
 import { Trail } from '../models/trail.js'; // Trail model
 // get Trails controller
 export const getTrails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // extract page from query on request
+    const { page } = req.query;
     try {
-        // find all trails in Trail model
-        const trails = yield Trail.find();
-        // console.log(trails);
+        // limit of 8 posts per page
+        const LIMIT = 8;
+        // get start index of the trail in every page
+        const startIndex = (Number(page) - 1) * LIMIT;
+        // count documents so we know how many trails and pages we'll have
+        const total = yield Trail.countDocuments({});
+        // find trails (sort them to get the newest ones first) and limit them to 8 per page
+        // and skip all the way until the index of the first trail in the page we are on
+        const trails = yield Trail.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
         // send trails in json type with a status of 200
-        res.status(200).json(trails);
+        res.status(200).json({ data: trails, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
     }
     catch (err) {
         // send error if there's any

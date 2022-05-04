@@ -7,4 +7,6 @@ export enum Actions {
     like = 'LIKE',
     auth = 'AUTH',
     logout = 'LOGOUT',
+    startLoading = 'START_LOADING',
+    endLoading = 'END_LOADING',
 }

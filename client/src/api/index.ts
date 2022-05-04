@@ -32,7 +32,7 @@ API.interceptors.request.use((req: AxiosRequestConfig): AxiosRequestConfig => {
 })
 
 // function to make a GET request (returns array of type Trail)(with url)
-export const fetchTrails = () => API.get<Trail[]>('/trails');
+export const fetchTrails = (page: number | string) => API.get<Trail[]>(`/trails?page=${page}`);
 
 // function to make a GET request (returns array of type Trail)(with url)
 export const fetchTrailsBySearch = (searchQuery: ISearch) => API.get<Trail[]>(`/trails/search?search=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);

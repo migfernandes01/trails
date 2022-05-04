@@ -39,11 +39,6 @@ export const Home = () => {
 
     // check URL for search query
     const searchQuery = query.get('search');
-    
-    // dispatch new action to fetch trails when component is rendered
-    useEffect(() => {
-        dispatch(getTrails());
-    }, [currentId, dispatch]);
 
     // function to handle key press event
     const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -105,7 +100,7 @@ export const Home = () => {
                         </AppBar>
                         <Form currentId={currentId} setCurrentId={setCurrentId}/>
                         <Paper elevation={6}>
-                            <Pagination />
+                            <Pagination page={page} />
                         </Paper>
                     </Grid>
                 </Grid>
