@@ -13,12 +13,22 @@ interface Trail {
 }
 
 interface IState {
+    isLoading: boolean
     trails: Trail[];
     currentPage: number;
     numberOfPages: number;
+    trail: Trail | undefined;
 }
 
-export default (state: {isLoading: boolean; trails: Trail[]} = { isLoading: true, trails: [] }, action: AnyAction) => {
+const initialState = {
+    currentPage: 1,
+    numberOfPages:1,  
+    isLoading: true, 
+    trails: [],
+    trail: undefined,
+}
+
+export default (state: IState = initialState, action: AnyAction) => {
     switch(action.type) {
         case Actions.startLoading:
             return {

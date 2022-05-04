@@ -5,9 +5,10 @@ import moment from 'moment';
 import { useParams, useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import { getTrail } from '../../redux/actions/trails';
+import { RootState } from '../../redux/reducers';
 
 export const TrailDetails = (): JSX.Element => {
-    const { trail, trails, isLoading } = useSelector((state: any) => state.trails);
+    const { trail, trails, isLoading } = useSelector((state: RootState) => state.trails);
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = useStyles();
@@ -23,7 +24,7 @@ export const TrailDetails = (): JSX.Element => {
     if(!trail && !isLoading){
         return (
             <p>Post not found</p>
-        )
+        );
     }
 
     if(isLoading){

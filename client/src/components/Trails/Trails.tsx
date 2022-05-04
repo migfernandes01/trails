@@ -4,6 +4,7 @@ import { Trail } from './Trail/Trail';
 import useStyles from './styles';
 import { useSelector } from "react-redux";
 import { Trail as TrailStructure } from '../../api';
+import { RootState } from "../../redux/reducers";
 
 interface TrailsProps {
     setCurrentId: (_id: any) => void;
@@ -16,7 +17,7 @@ export const Trails = (props: TrailsProps): JSX.Element => {
     const classes = useStyles();
 
     // get trails from redux global state using selector
-    const { trails, isLoading } = useSelector((state: any) => state.trails);
+    const { trails, isLoading } = useSelector((state: RootState) => state.trails);
 
     if(!trails.length && !isLoading) {
         return (

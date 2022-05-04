@@ -4,6 +4,7 @@ import useStyles from './styles';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrails } from '../redux/actions/trails';
+import { RootState } from '../redux/reducers';
 
 interface IPagination {
     page: number | string;
@@ -16,8 +17,8 @@ const Paginate = (props: IPagination): JSX.Element => {
     const classes = useStyles(); 
     // initialize useDispatch hook
     const dispatch = useDispatch();
-    //
-    const { numberOfPages } = useSelector((state: any) => state.trails)
+    // extract number of pages from reduc state
+    const { numberOfPages } = useSelector((state: RootState) => state.trails);
 
     // run it everytime page changes
     useEffect(() => {

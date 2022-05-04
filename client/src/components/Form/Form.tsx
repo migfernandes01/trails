@@ -26,7 +26,7 @@ export const Form = (props: FormProps): JSX.Element => {
     const { currentId, setCurrentId } = props;
 
     // get trail from redux global state RootState
-    const trail = useSelector((state: any) => currentId ? state.trails.find((t: Trail) => t._id === currentId) : null);
+    const trail = useSelector((state: RootState) => currentId ? state.trails.trails.find((t: Trail) => t._id === currentId) : null);
 
     // trailData object state
     const [trailData, setTrailData] = useState({
