@@ -110,6 +110,7 @@ export const deleteTrail = (req, res) => __awaiter(void 0, void 0, void 0, funct
     // send success message
     res.json({ message: 'Trail deleted successfully' });
 });
+// like trail controller
 export const likeTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // extract id from request
     const { id: _id } = req.params;
@@ -139,5 +140,21 @@ export const likeTrail = (req, res) => __awaiter(void 0, void 0, void 0, functio
         // update like count
         const updatedTrail = yield Trail.findByIdAndUpdate(_id, trail, { new: true });
         res.json({ updatedTrail });
+    }
+});
+// comment on trail controller
+export const commentTrail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // extract id and value from params and body
+    const { id } = req.params;
+    const { value } = req.body;
+    // get trail
+    const trail = yield Trail.findById(id);
+    if (trail) {
+        // add comment
+        trail.comments.push(value);
+        // update trail with new comment
+        const updatedTrail = yield Trail.findByIdAndUpdate(id, trail, { new: true });
+        // send it back
+        res.status(200).json(updatedTrail);
     }
 });

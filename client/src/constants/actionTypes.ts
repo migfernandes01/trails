@@ -6,6 +6,7 @@ export enum Actions {
     update = 'UPDATE',
     delete = 'DELETE',
     like = 'LIKE',
+    comment = 'COMMENT',
     auth = 'AUTH',
     logout = 'LOGOUT',
     startLoading = 'START_LOADING',

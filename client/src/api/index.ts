@@ -12,7 +12,8 @@ export interface Trail {
     tags: string[];
     selectedFile: string;
     likes?: string[];
-    createdAt?: Date
+    createdAt?: Date;
+    comments?: string[];
 };
 
 // create instance of API
@@ -51,6 +52,9 @@ export const deleteTrail = (id: number) => API.delete(`/trails/${id}`);
 
 // function to make a PATCH to (/trails/:id/likeTrail)
 export const likeTrail = (id: number) => API.patch(`/trails/${id}/likeTrail`);
+
+// function to make a POST to (/trails/:id/likeTrail)
+export const commentTrail = (value: string, id: number) => API.post(`/trails/${id}/comment`, { value });
 
 
 // function to make a POST to (/users/signin)

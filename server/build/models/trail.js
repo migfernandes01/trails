@@ -14,6 +14,10 @@ const trailSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: new Date(),
+    },
+    comments: {
+        type: [String],
+        default: []
     }
 });
 // create and export a new model, using the Trail interface and trail Schema

@@ -69,6 +69,18 @@ export default (state: IState = initialState, action: AnyAction) => {
                 ...state,
                 trails: state.trails.map((trail) => trail._id === action.payload._id ? action.payload : trail)
             }
+        case Actions.comment:
+            return {
+                ...state,
+                trails: state.trails.map((trail) => {
+                    // return all posts
+                    // change post that got commented
+                    if(trail._id === action.payload._id) {
+                        return action.payload;
+                    }
+                    return trail;
+                })
+            }
         case Actions.delete:
             // keep all posts EXCEPT the one where id === action.payload(deleted post id)
             return {

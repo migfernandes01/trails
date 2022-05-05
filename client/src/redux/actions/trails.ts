@@ -120,3 +120,16 @@ export const likeTrail = (id: any) => async(dispatch: Dispatch) => {
         console.log(error.message);
     }
 };
+
+// action creator to distpatch a new COMMENT action
+export const commentTrail = (value: string, id: number) => async(dispatch: Dispatch) => {
+    try {
+        // call api to comment
+        const { data } = await api.commentTrail(value, id);
+        // dispatch new comment action with the new value of trail as the payload
+        dispatch({ type: Actions.comment, payload: data });
+        return data.comments;
+    } catch (error: any) {
+        console.log(error.message);
+    }
+}

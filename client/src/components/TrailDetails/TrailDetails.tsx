@@ -7,6 +7,7 @@ import useStyles from './styles';
 import { getTrail, getTrailsBySearch } from '../../redux/actions/trails';
 import { RootState } from '../../redux/reducers';
 import { Trail } from '../../api'; 
+import { CommentSection } from './CommentSection';
 
 export const TrailDetails = (): JSX.Element => {
     // get fields from redux global state
@@ -67,9 +68,7 @@ export const TrailDetails = (): JSX.Element => {
                     <Typography variant="h6">Created by: {trail.author}</Typography>
                     <Typography variant="body1">{moment(trail.createdAt).fromNow()}</Typography>
                     <Divider style={{ margin: '20px 0' }} />
-                    <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
-                    <Divider style={{ margin: '20px 0' }} />
-                    <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+                    <CommentSection trail={trail}/>
                     <Divider style={{ margin: '20px 0' }} />
                 </div>
                 <div className={classes.imageSection}>

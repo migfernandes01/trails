@@ -116,6 +116,7 @@ export const deleteTrail = async (req: Request, res: Response): Promise<any> => 
     res.json({ message: 'Trail deleted successfully' });
 };
 
+// like trail controller
 export const likeTrail = async (req: Request, res: Response): Promise<any> => {
     // extract id from request
     const { id: _id } = req.params;
@@ -150,5 +151,22 @@ export const likeTrail = async (req: Request, res: Response): Promise<any> => {
         // update like count
         const updatedTrail = await Trail.findByIdAndUpdate(_id, trail, { new: true });
         res.json({updatedTrail});
+    }
+};
+
+// comment on trail controller
+export const commentTrail = async (req: Request, res: Response) => {
+    // extract id and value from params and body
+    const { id } = req.params;
+    const { value } = req.body;
+    // get trail
+    const trail = await Trail.findById(id);
+    if(trail){
+        // add comment
+        trail.comments.push(value);
+        // update trail with new comment
+        const updatedTrail = await Trail.findByIdAndUpdate(id, trail, { new: true });
+        // send it back
+        res.status(200).json(updatedTrail);
     }
 };

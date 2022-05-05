@@ -10,6 +10,7 @@ interface Trail {
     selectedFile: string;
     likes: string[];
     createdAt: Date;
+    comments: string[]
 }
 
 // create new Schema using the interface trail
@@ -27,6 +28,10 @@ const trailSchema = new mongoose.Schema<Trail>({
     createdAt: {
         type: Date,
         default: new Date(),
+    },
+    comments: {
+        type: [String],
+        default: []
     }
 });
 
