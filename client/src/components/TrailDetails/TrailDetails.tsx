@@ -23,7 +23,7 @@ export const TrailDetails = (): JSX.Element => {
     useEffect(() => {
         // dispatch new get trail action
         dispatch(getTrail(id));
-    }, [id]);
+    }, [id, dispatch]);
 
     // System of recommendations:
     // once trail changes 
@@ -33,7 +33,7 @@ export const TrailDetails = (): JSX.Element => {
             // current trail
             dispatch(getTrailsBySearch({ search: 'none', tags: trail?.tags.join(',') }));
         }
-    }, [trail]);
+    }, [trail, dispatch]);
 
     // if trail wasn't found
     if(!trail && !isLoading){
@@ -88,7 +88,7 @@ export const TrailDetails = (): JSX.Element => {
                                 <Typography gutterBottom variant='subtitle2'>{recommendedTrail.author}</Typography>
                                 <Typography gutterBottom variant='subtitle2'>{recommendedTrail.description}</Typography>
                                 <Typography gutterBottom variant='subtitle1'>Likes: {recommendedTrail.likes?.length}</Typography>
-                                <img src={recommendedTrail.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} width='200px'/>
+                                <img src={recommendedTrail.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} width='200px' alt={recommendedTrail.title}/>
                             </div>
                         ))}
                     </div>

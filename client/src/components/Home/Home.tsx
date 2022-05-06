@@ -6,7 +6,7 @@ import { Form } from '../Form/Form';
 import { Trails } from '../Trails/Trails';
 import Pagination from '../Pagination';
 import { useDispatch } from "react-redux";
-import { getTrails, getTrailsBySearch } from '../../redux/actions/trails';
+import { getTrailsBySearch } from '../../redux/actions/trails';
 import useStyles from './styles';
 
 // useQuery hook for URL search params

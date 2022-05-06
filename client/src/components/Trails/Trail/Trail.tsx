@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     Card,
     CardActions,
@@ -29,45 +29,69 @@ export const Trail = (props: TrailProps): JSX.Element => {
     const { trail } = props;
     const { setCurrentId } = props;
 
-    // get styles into classes object
-    const classes = useStyles();
-
-    // initialize dispatch
-    const dispatch = useDispatch();
-
-    const history = useHistory();
-
-    // function to like a trail
-    const onLike = () => {
-        // dispatch new like action
-        dispatch(likeTrail(trail._id));
-        // set current id to 0
-        setCurrentId(0);
-    };
-
-    // redirect user to specific trail details page
-    const openTrail = () => history.push(`/trails/${trail._id}`)
+    // state for likes
+    const [likes, setLikes] = useState<string[]>(trail.likes || []);
 
     // profile in localstorage
     const userProfileInLocalStorage = localStorage.getItem('profile');
 
     const user = (JSON.parse(userProfileInLocalStorage || '{"message": "not existent"}' ));
 
+    // get styles into classes object
+    const classes = useStyles();
+
+    // initialize dispatch
+    const dispatch = useDispatch();
+    // initialize history
+    const history = useHistory();
+
+    const userId = (user?.result?.googleId || user?.result?._id);
+    const hasLikedPost = trail.likes && trail.likes.find((like) => like === userId);
+
+    //console.log('LIKES:', likes);
+
+    // function to like a trail
+    const onLike = async () => {
+        // dispatch new like action
+        dispatch(likeTrail(trail._id));
+        // set current id to 0
+        // setCurrentId(0);
+        if(trail.likes){
+            // if user liked the post
+            if(hasLikedPost){   
+                // take user like out of trail likes
+                setLikes(trail.likes.filter((id) => id !== userId));
+            } else {
+                setLikes([...trail.likes, userId]);
+            }
+        }
+    };
+
+    // redirect user to specific trail details page
+    const openTrail = () => history.push(`/trails/${trail._id}`)
+
+    useEffect(() => {
+        console.log('Likes changed');
+        console.log('LIKES:', likes);
+    }, [likes]);
+
     // JSX component for the likes frontend logic
     const Likes = (): JSX.Element => {
         // if trail has likes
-        if(trail.likes && trail.likes.length > 0) {
+        if(likes.length > 0) {
             // determine if you liked the trail (logged in with google or regular email/pw)
-            return trail.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
-            ? (
+            return hasLikedPost
+            ? ( 
                 <>
+                    {console.log('HAS LIKED')}
                     <ThumbUpAltIcon fontSize="small" />
-                    &nbsp;{ trail.likes.length > 2 ? `You and ${trail.likes.length - 1 } others` : `${trail.likes.length} like${trail.likes.length > 1 ? 's' : ''}`}
+                    &nbsp;{ likes.length > 2 ? `You and ${likes.length - 1 } others` : `${likes.length} like${likes.length > 1 ? 's' : ''}`}
                 </>
             ) : (
                 <>
+                    {console.log('HAS NOT LIKED')}
                     <ThumbUpAltOutlined fontSize="small" />
-                    &nbsp;{trail.likes.length} {trail.likes.length === 1 ? 'Like' : 'Likes'}
+                    &nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}
                 </>
             )
         }

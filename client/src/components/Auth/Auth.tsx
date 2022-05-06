@@ -8,7 +8,7 @@ import {
     Container
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import { GoogleLogin, GoogleLoginResponse } from 'react-google-login';
 import { Icon } from './Icon';
 import { Input } from './Input';
 import useStyles from './styles';
